@@ -1,0 +1,363 @@
+"""
+Complete Step-by-Step Guide to Running Tests
+This file contains all the commands and steps needed
+"""
+
+# ============================================================================
+# STEP 1: INSTALL DEPENDENCIES
+# ============================================================================
+
+# Open PowerShell or Command Prompt and run:
+"""
+pip install -r test_requirements.txt
+"""
+
+# Expected output:
+"""
+Successfully installed pytest-7.4.3 pytest-asyncio-0.21.1 httpx-0.25.1 
+requests-2.31.0 fastapi-0.109.0
+"""
+
+# ============================================================================
+# STEP 2: START THE API SERVER
+# ============================================================================
+
+# In PowerShell, run:
+"""
+python -m uvicorn api:app --reload
+"""
+
+# Expected output:
+"""
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started server process [1234]
+INFO:     Application startup complete
+"""
+
+# ============================================================================
+# STEP 3: VERIFY API IS RUNNING
+# ============================================================================
+
+# In a NEW PowerShell window, test connectivity:
+"""
+curl http://localhost:8000/meta
+"""
+
+# ============================================================================
+# STEP 4: RUN THE TESTS
+# ============================================================================
+
+# Option A: AUTOMATED TESTS (Pytest)
+# ═════════════════════════════════════════════════════════════════════════
+
+# Run all tests with verbose output:
+"""
+pytest test_api.py -v -s
+"""
+
+# Run a specific test class:
+"""
+pytest test_api.py::TestSearchEmployees -v -s
+"""
+
+# Run with coverage report:
+"""
+pytest test_api.py -v --cov=api --cov-report=html
+"""
+
+# Run quick smoke tests:
+"""
+pytest test_api.py::TestMetadataAndHealth -v -s
+pytest test_api.py::TestDataPresence -v -s
+"""
+
+# Option B: INTERACTIVE MANUAL TESTS (Recommended for first run)
+# ═════════════════════════════════════════════════════════════════════════
+
+# Run interactive tests:
+"""
+python test_api_manual.py
+"""
+
+# This will display:
+# - API connection status
+# - Metadata from server
+# - Sample employee data
+# - Department statistics
+# - Nationality breakdown
+# - Exited employee records
+# - Database summary
+
+# Option C: QUICK TEST RUNNER (Menu-based)
+# ═════════════════════════════════════════════════════════════════════════
+
+# Run the interactive menu:
+"""
+python run_tests.py
+"""
+
+# Then select from the menu:
+# 1. All pytest tests
+# 2. Pytest with coverage
+# 4. Interactive manual tests
+# 5. Quick smoke test
+# etc.
+
+# ============================================================================
+# EXPECTED TEST RESULTS
+# ============================================================================
+
+"""
+Example output from test_api_manual.py:
+======================================================================
+FA Glass HR Database API - Manual Test Suite
+Base URL: http://localhost:8000
+
+✓ API is running and responding
+
+======================================================================
+1. METADATA ENDPOINT
+======================================================================
+
+✓ Metadata retrieved successfully
+→ Module: hr_master v1.0.0
+→ Protocol Version: 3
+→ Description: Real-time access to FA Glass employee master data
+→ Available Actions: 6
+
+Actions:
+  • searchEmployees                - Search for employees by name, department, ID, or any keyword.
+  • getEmployeesByDepartment      - Get all active employees in a specific department.
+  • getHeadcountByDepartment      - Get employee headcount grouped by department.
+  • getHeadcountByNationality     - Get employee headcount grouped by nationality.
+  • getExitedEmployees            - Get employees who have left.
+  • refreshData                   - Force a fresh fetch of HR Excel file from OneDrive.
+
+======================================================================
+2. SEARCH EMPLOYEES
+======================================================================
+
+→ Searching for: '' (empty = all)
+✓ Found 150 employees
+
+Sample employees (first 3):
+    • Ahmed Hassan (Sales)
+    • Sarah Johnson (Finance)
+    • Mohammed Al-Mansouri (Technical)
+
+→ Searching for: 'a'
+✓ Found 78 employees
+
+→ Searching for: 'sales'
+✓ Found 45 employees
+
+======================================================================
+3. EMPLOYEES BY DEPARTMENT
+======================================================================
+
+→ Fetching all departments...
+✓ Found 8 departments
+
+Departments:
+    • Sales: 45 employees
+    • Finance: 8 employees
+    • Technical: 32 employees
+    • HR: 5 employees
+    • Marketing: 10 employees
+    • Operations: 25 employees
+    • Legal: 3 employees
+    • Management: 17 employees
+
+→ Fetching employees from 'Sales'...
+✓ Found 45 employees in Sales
+
+Sample employees:
+    • Ahmed Hassan - Active
+    • Fatima Al-Mansouri - Active
+    • John Smith - Active
+
+======================================================================
+4. HEADCOUNT BY DEPARTMENT
+======================================================================
+
+✓ Retrieved headcount for 8 departments
+
+Department Headcount:
+    • Sales                        : 45 employees
+    • Finance                      : 8 employees
+    • Technical                    : 32 employees
+    • HR                          : 5 employees
+    • Marketing                    : 10 employees
+    • Operations                   : 25 employees
+    • Legal                        : 3 employees
+    • Management                   : 17 employees
+
+======================================================================
+5. HEADCOUNT BY NATIONALITY
+======================================================================
+
+✓ Retrieved headcount for 15 nationalities
+
+Nationality Headcount:
+    • UAE                         : 65 employees
+    • Indian                      : 35 employees
+    • Egyptian                    : 28 employees
+    • Pakistani                   : 12 employees
+    • Filipino                    : 5 employees
+    • ...
+
+======================================================================
+6. EXITED EMPLOYEES
+======================================================================
+
+→ Fetching exited employees (All)...
+✓ Found 12 exited employees (All)
+
+Sample:
+    • Mohammed Hassan - Reason: Resigned
+    • Lisa Chen - Reason: Resigned
+
+→ Fetching exited employees (Resigned)...
+✓ Found 8 exited employees (Resigned)
+
+→ Fetching exited employees (Terminated)...
+✓ Found 3 exited employees (Terminated)
+
+→ Fetching exited employees (Absconded)...
+✓ Found 1 exited employees (Absconded)
+
+======================================================================
+7. REFRESH DATA
+======================================================================
+
+→ Refreshing HR data from OneDrive...
+✓ HR data refreshed from OneDrive successfully.
+
+======================================================================
+TEST SUMMARY
+======================================================================
+
+HR Database Statistics:
+  • Total Employees: 150
+  • Total Departments: 8
+  • Total Nationalities: 15
+
+✓ All API tests completed successfully!
+"""
+
+# ============================================================================
+# PYTEST OUTPUT EXAMPLE
+# ============================================================================
+
+"""
+$ pytest test_api.py -v -s
+
+test_api.py::TestMetadataAndHealth::test_metadata_endpoint PASSED
+✓ Metadata endpoint working - Found 6 actions
+  Module: hr_master v1.0.0
+
+test_api.py::TestSearchEmployees::test_search_employees_success PASSED
+✓ Search employees (all) - Found 150 employees
+  Sample employee keys: ['Name', 'Email', 'Department', 'Status', 'Nationality']
+
+test_api.py::TestSearchEmployees::test_search_employees_by_name PASSED
+✓ Search employees by name 'a' - Found 78 employees
+
+test_api.py::TestEmployeesByDepartment::test_get_employees_by_department PASSED
+✓ Get employees by department 'Sales' - Found 45 employees
+  Sample employee keys: ['ID', 'Name', 'Email', 'Department', 'Status']
+
+test_api.py::TestHeadcountByDepartment::test_headcount_by_department PASSED
+✓ Headcount by department - Found 8 departments
+
+test_api.py::TestHeadcountByNationality::test_headcount_by_nationality PASSED
+✓ Headcount by nationality - Found 15 nationalities
+
+test_api.py::TestExitedEmployees::test_get_all_exited_employees PASSED
+✓ Exited employees (all) - Found 12 employees
+
+test_api.py::TestExitedEmployees::test_get_resigned_employees PASSED
+✓ Exited employees (Resigned) - Found 8 employees
+
+test_api.py::TestRefreshData::test_refresh_data PASSED
+✓ Refresh data - HR data refreshed from OneDrive successfully.
+
+test_api.py::TestDataPresence::test_at_least_one_employee_exists PASSED
+✓ Database contains 150 employees
+
+========================= 15 passed in 2.34s =========================
+"""
+
+# ============================================================================
+# WHAT TO DO IF TESTS FAIL
+# ============================================================================
+
+"""
+Problem: Connection refused (API not running)
+Solution: 
+  1. Make sure you ran: python -m uvicorn api:app --reload
+  2. Check that it shows "Uvicorn running on http://127.0.0.1:8000"
+
+Problem: No employees found
+Solution:
+  1. Check OneDrive connection
+  2. Verify HR_Database.py file is accessible
+  3. Run refresh manually: POST to /action/refreshData
+
+Problem: Import errors
+Solution:
+  1. Install dependencies: pip install -r test_requirements.txt
+  2. Verify hr_master_module.py exists
+
+Problem: Module not found - hr_master_module
+Solution:
+  Check that:
+  - File is named HR_Database.py (exact spelling)
+  - File is in the same directory as api.py
+  - Or create an alias: ln -s HR_Database.py hr_master_module.py
+"""
+
+# ============================================================================
+# COMMON COMMANDS SUMMARY
+# ============================================================================
+
+"""
+# Install test dependencies
+pip install -r test_requirements.txt
+
+# Start API server
+python -m uvicorn api:app --reload
+
+# Run all tests (in new terminal while API is running)
+pytest test_api.py -v -s
+
+# Run interactive manual tests
+python test_api_manual.py
+
+# Run menu-based test runner
+python run_tests.py
+
+# Run specific test
+pytest test_api.py::TestSearchEmployees::test_search_employees_success -v
+
+# Run with coverage
+pytest test_api.py -v --cov=api --cov-report=html
+
+# View coverage report
+open htmlcov/index.html  # Mac
+start htmlcov/index.html  # Windows
+"""
+
+# ============================================================================
+# NEXT STEPS
+# ============================================================================
+
+"""
+1. ✓ Install dependencies: pip install -r test_requirements.txt
+2. ✓ Start API: python -m uvicorn api:app --reload
+3. ✓ Run tests: pytest test_api.py -v -s
+   OR
+3. ✓ Run manual: python test_api_manual.py
+4. Verify all tests pass and show actual data
+5. Share results with team
+"""

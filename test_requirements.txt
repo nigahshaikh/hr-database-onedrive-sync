@@ -1,0 +1,20 @@
+# ============================================================================
+# FA Glass HR API - Complete Requirements
+# Includes: HR Module, API Server, and Test Suite
+# ============================================================================
+
+# Core API Framework
+fastapi==0.109.0
+uvicorn==0.27.0
+python-multipart==0.0.6
+
+# HR Module Dependencies  
+pandas==2.0.3
+requests==2.31.0
+msoffcrypto-tool==5.0.1
+openpyxl==3.1.2
+
+# Testing Framework
+pytest==7.4.3
+pytest-asyncio==0.21.1
+httpx==0.25.1
